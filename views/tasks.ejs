@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Tasks</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <%- include('partials_header') %>
+
+  <main class="container">
+    <div class="page-title-row">
+      <h1>Task List</h1>
+      <a class="btn" href="/add">+ Add Task</a>
+    </div>
+
+    <form action="/tasks" method="GET" class="filter-box">
+      <label>Filter by priority/status:</label>
+      <select name="filter">
+        <option value="All" <%= filter === 'All' ? 'selected' : '' %>>All</option>
+        <option value="High" <%= filter === 'High' ? 'selected' : '' %>>High Priority</option>
+        <option value="Medium" <%= filter === 'Medium' ? 'selected' : '' %>>Medium Priority</option>
+        <option value="Low" <%= filter === 'Low' ? 'selected' : '' %>>Low Priority</option>
+        <option value="Pending" <%= filter === 'Pending' ? 'selected' : '' %>>Pending</option>
+        <option value="Completed" <%= filter === 'Completed' ? 'selected' : '' %>>Completed</option>
+      </select>
+      <button class="btn small" type="submit">Apply</button>
+    </form>
+
+    <% if (tasks.length === 0) { %>
+      <div class="empty">No tasks found.</div>
+    <% } %>
+
+    <div class="task-grid">
+      <% tasks.forEach(task => { %>
+        <article class="task-card <%= task.status === 'Completed' ? 'done' : '' %>">
+          <div class="card-top">
+            <span class="badge <%= task.priority.toLowerCase() %>"><%= task.priority %></span>
+            <span class="status"><%= task.status %></span>
+          </div>
+          <h2><%= task.title %></h2>
+          <p><strong>Subject:</strong> <%= task.subject %></p>
+          <p><strong>Due:</strong> <%= task.dueDate %></p>
+          <p><%= task.description || 'No description added.' %></p>
+
+          <div class="card-actions">
+            <form action="/complete/<%= task.id %>" method="POST">
+              <button class="btn small" type="submit"><%= task.status === 'Completed' ? 'Undo' : 'Complete' %></button>
+            </form>
+            <a class="btn small secondary" href="/edit/<%= task.id %>">Edit</a>
+            <form action="/delete/<%= task.id %>" method="POST">
+              <button class="btn small danger" type="submit">Delete</button>
+            </form>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  </main>
+</body>
+</html>

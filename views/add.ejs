@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Task</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <%- include('partials_header') %>
+
+  <main class="container form-page">
+    <h1>Add Task</h1>
+    <form action="/add" method="POST" class="task-form">
+      <label>Task Title</label>
+      <input type="text" name="title" required placeholder="e.g. Complete L12 reflection">
+
+      <label>Subject</label>
+      <input type="text" name="subject" required placeholder="e.g. C237">
+
+      <label>Due Date</label>
+      <input type="date" name="dueDate" required>
+
+      <label>Priority</label>
+      <select name="priority" required>
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+      </select>
+
+      <label>Description</label>
+      <textarea name="description" rows="4" placeholder="Add task details..."></textarea>
+
+      <button class="btn" type="submit">Save Task</button>
+    </form>
+  </main>
+</body>
+</html>
